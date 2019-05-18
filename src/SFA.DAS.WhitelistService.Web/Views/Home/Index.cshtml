@@ -1,0 +1,16 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-xl">
+            Whitelist Service
+        </h1>
+
+        <p class="govuk-body">You must sign in to use this service.</p>
+        <div class="govuk-form-group">
+            <a asp-action="SignIn" asp-controller="Account" class="govuk-button govuk-button--start">Sign In</a>
+        </div>
+    </div>
+</div>

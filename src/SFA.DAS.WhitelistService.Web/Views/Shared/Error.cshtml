@@ -1,0 +1,16 @@
+﻿@model ErrorViewModel
+@{
+    ViewData["Title"] = "Error";
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-xl">
+            There has been an error
+        </h1>
+        @if (Model.ShowRequestId)
+        {
+            <p class="govuk-body"><strong>request id: </strong> @Model.RequestId</p>
+        }
+    </div>
+</div>
