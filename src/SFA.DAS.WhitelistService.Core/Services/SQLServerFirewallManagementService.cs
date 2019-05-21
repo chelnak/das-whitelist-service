@@ -6,7 +6,7 @@ namespace SFA.DAS.WhitelistService.Core
     public class SQLServerFirewallManagementService : ISQLServerFirewallManagementService
     {
         private readonly IQueueRepository queueRepository;
-        public SQLServerFirewallManagementService(IRepository _queueRepository)
+        public SQLServerFirewallManagementService(IQueueRepository _queueRepository)
         {
             queueRepository =_queueRepository;
         }
