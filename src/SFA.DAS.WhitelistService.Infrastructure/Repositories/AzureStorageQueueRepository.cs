@@ -8,7 +8,7 @@ using SFA.DAS.WhitelistService.Core;
 
 namespace SFA.DAS.WhitelistService.Core
 {
-    public class AzureStorageQueueRepository : IAzureStorageQueueRepository
+    public class AzureStorageQueueRepository : IQueueRepository
     {
         private readonly ConfigurationEntity _configuration;
         public AzureStorageQueueRepository(IOptions<ConfigurationEntity> configuration)
@@ -16,7 +16,7 @@ namespace SFA.DAS.WhitelistService.Core
             _configuration = configuration.Value;
         }
 
-        public async Task NewMessage(AzureStorageQueueMessageEntity message)
+        public async Task NewMessage(QueueMessageEntity message)
         {
             // TODO: Move this out
             var storageAccount = CloudStorageAccount.Parse(_configuration.StorageConnectionString);

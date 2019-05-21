@@ -5,6 +5,6 @@ namespace SFA.DAS.WhitelistService.Core
 {
     public interface ISQLServerFirewallManagementService
     {
-        Task AddWhitelistEntry(AzureStorageQueueMessageEntity message);
+        Task AddWhitelistEntry(QueueMessageEntity message);
     }
 }

@@ -2,7 +2,7 @@ using System;
 
 namespace SFA.DAS.WhitelistService.Core
 {
-    public class AzureStorageQueueMessageEntity
+    public class QueueMessageEntity
     {
         public SupportedMessageTypeEnum Type { get; set; }
         public string Name { get; set; }

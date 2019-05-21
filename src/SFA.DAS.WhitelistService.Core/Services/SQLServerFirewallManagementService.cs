@@ -5,15 +5,15 @@ namespace SFA.DAS.WhitelistService.Core
 {
     public class SQLServerFirewallManagementService : ISQLServerFirewallManagementService
     {
-        private readonly IAzureStorageQueueRepository azureStorageQueueRepository;
-        public SQLServerFirewallManagementService(IAzureStorageQueueRepository _azureStorageQueueRepository)
+        private readonly IQueueRepository queueRepository;
+        public SQLServerFirewallManagementService(IRepository _queueRepository)
         {
-            azureStorageQueueRepository =_azureStorageQueueRepository;
+            queueRepository =_queueRepository;
         }
 
-        public async Task AddWhitelistEntry(AzureStorageQueueMessageEntity message)
+        public async Task AddWhitelistEntry(QueueMessageEntity message)
         {
-            await azureStorageQueueRepository.NewMessage(message);
+            await queueRepository.NewMessage(message);
         }
     }
 }

@@ -50,7 +50,7 @@ namespace SFA.DAS.WhitelistService.Web.Controllers
                 return new BadRequestResult();
             }
 
-            var WhitelistEntry = new AzureStorageQueueMessageEntity{
+            var WhitelistEntry = new QueueMessageEntity{
                 Type = SupportedMessageTypeEnum.SQLServer,
                 Name = indexViewModel.FullName.Trim(),
                 IPAddress =indexViewModel.IPAddress
