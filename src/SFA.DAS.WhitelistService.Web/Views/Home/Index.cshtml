@@ -1,5 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Home";
+    @model IndexViewModel;
+
 }
 
 <div class="govuk-grid-row">
@@ -9,8 +11,23 @@
         </h1>
 
         <p class="govuk-body">You must sign in to use this service.</p>
-        <div class="govuk-form-group">
-            <a asp-action="SignIn" asp-controller="Account" class="govuk-button govuk-button--start">Sign In</a>
-        </div>
+        <form method="post">
+            <div class="govuk-form-group">
+
+                <div class="govuk-form-group">
+                    <label class="govuk-label" for="FullName">Full Name</label>
+                    <input class="govuk-input" id="FullName" type="text" name="FullName">
+                </div>
+
+                <div class="govuk-form-group">
+                    <label class="govuk-label" for="IPAddress">IP Address</label>
+                    <input class="govuk-input" id="IPAddress" type="text" name="IPAddress">
+                </div>
+
+                <div class="govuk-form-group">
+                    <button asp-controller="Submit" asp-action="Home" class="govuk-button govuk-button--start">Submit</button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>

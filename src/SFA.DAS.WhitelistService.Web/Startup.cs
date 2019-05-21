@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using SFA.DAS.WhitelistService.Core;
 
 namespace SFA.DAS.WhitelistService.Web
 {
@@ -27,6 +28,10 @@ namespace SFA.DAS.WhitelistService.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<ConfigurationEntity>(Configuration);
+            services.AddSingleton<ISQLServerFirewallManagementService, SQLServerFirewallManagementService>();
+            services.AddSingleton<IAzureStorageQueueRepository, AzureStorageQueueRepository>();
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
