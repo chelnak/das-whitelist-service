@@ -1,7 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Home";
     @model IndexViewModel;
-
 }
 
 <div class="govuk-grid-row">
@@ -10,18 +9,18 @@
             Whitelist Service
         </h1>
 
-        <p class="govuk-body">You must sign in to use this service.</p>
+        <p class="govuk-body">[TBD] Enter your details below and click submit.</p>
         <form method="post">
             <div class="govuk-form-group">
 
                 <div class="govuk-form-group">
                     <label class="govuk-label" for="FullName">Full Name</label>
-                    <input class="govuk-input" id="FullName" type="text" name="FullName">
+                    <input class="govuk-input" id="FullName" type="text" name="FullName" required="true">
                 </div>
 
                 <div class="govuk-form-group">
                     <label class="govuk-label" for="IPAddress">IP Address</label>
-                    <input class="govuk-input" id="IPAddress" type="text" name="IPAddress">
+                    <input class="govuk-input" id="IPAddress" type="text" name="IPAddress" required="true">
                 </div>
 
                 <div class="govuk-form-group">
