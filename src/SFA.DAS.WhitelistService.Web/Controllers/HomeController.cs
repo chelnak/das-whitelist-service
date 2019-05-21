@@ -22,11 +22,13 @@ namespace SFA.DAS.WhitelistService.Web.Controllers
     {
         private readonly ILogger logger;
         private readonly ISQLServerFirewallManagementService sqlServerFirewallManagementService;
+        private readonly ISubmissionValidationService submissionValidationService;
 
-        public HomeController(ILogger<HomeController> _logger, ISQLServerFirewallManagementService _sqlServerFirewallManagementService)
+        public HomeController(ILogger<HomeController> _logger, ISQLServerFirewallManagementService _sqlServerFirewallManagementService, ISubmissionValidationService _submissionValidationService)
         {
             logger = _logger;
             sqlServerFirewallManagementService = _sqlServerFirewallManagementService;
+            submissionValidationService = _submissionValidationService;
         }
 
         [HttpGet("")]
@@ -39,27 +41,13 @@ namespace SFA.DAS.WhitelistService.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Submit(IndexViewModel indexViewModel)
         {
-            if (String.IsNullOrEmpty(indexViewModel.FullName))
-            {
-                var fullNameValidationMessage = "Full Name cannot be null";
-                logger.LogError(1, fullNameValidationMessage);
-                return new BadRequestResult();
+            var validationResult = submissionValidationService.Validate(indexViewModel.FullName, indexViewModel.IPAddress);
+            if (!validationResult.IsValid){
+                logger.LogError(1, validationResult.Message);
+                return new BadRequestObjectResult(validationResult.Message);
             }
 
-            if (String.IsNullOrEmpty(indexViewModel.IPAddress))
-            {
-                var ipAddressValidationMessage = "IP Address cannot be null";
-                logger.LogError(1, ipAddressValidationMessage);
-                return new BadRequestObjectResult(ipAddressValidationMessage);
-            }
-
-            IPAddress ipAddress;
-            if (!IPAddress.TryParse(indexViewModel.IPAddress, out ipAddress))
-            {
-                var ipAddressFormatValidationMessage = $"{indexViewModel.IPAddress} is not valid";
-                logger.LogError(1, ipAddressFormatValidationMessage);
-                return new BadRequestObjectResult(ipAddressFormatValidationMessage);
-            }
+            logger.LogInformation(1, validationResult.Message);
 
             var WhitelistEntry = new QueueMessageEntity
             {

@@ -30,6 +30,7 @@ namespace SFA.DAS.WhitelistService.Web
         {
             services.Configure<ConfigurationEntity>(Configuration);
             services.AddSingleton<ISQLServerFirewallManagementService, SQLServerFirewallManagementService>();
+            services.AddSingleton<ISubmissionValidationService, SubmissionValidationService>();
             services.AddSingleton<IQueueRepository, AzureStorageQueueRepository>();
 
             services.Configure<CookiePolicyOptions>(options =>
