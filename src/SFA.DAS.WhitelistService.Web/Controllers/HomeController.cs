@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -40,20 +41,31 @@ namespace SFA.DAS.WhitelistService.Web.Controllers
         {
             if (String.IsNullOrEmpty(indexViewModel.FullName))
             {
-                logger.LogError(1, "Full Name cannot be null");
+                var fullNameValidationMessage = "Full Name cannot be null";
+                logger.LogError(1, fullNameValidationMessage);
                 return new BadRequestResult();
             }
 
             if (String.IsNullOrEmpty(indexViewModel.IPAddress))
             {
-                logger.LogError(1, "IP Address cannot be null");
-                return new BadRequestResult();
+                var ipAddressValidationMessage = "IP Address cannot be null";
+                logger.LogError(1, ipAddressValidationMessage);
+                return new BadRequestObjectResult(ipAddressValidationMessage);
             }
 
-            var WhitelistEntry = new QueueMessageEntity{
+            IPAddress ipAddress;
+            if (!IPAddress.TryParse(indexViewModel.IPAddress, out ipAddress))
+            {
+                var ipAddressFormatValidationMessage = $"{indexViewModel.IPAddress} is not valid";
+                logger.LogError(1, ipAddressFormatValidationMessage);
+                return new BadRequestObjectResult(ipAddressFormatValidationMessage);
+            }
+
+            var WhitelistEntry = new QueueMessageEntity
+            {
                 Type = SupportedMessageTypeEnum.SQLServer,
                 Name = indexViewModel.FullName.Trim(),
-                IPAddress =indexViewModel.IPAddress
+                IPAddress = indexViewModel.IPAddress
             };
 
             await sqlServerFirewallManagementService.AddWhitelistEntry(WhitelistEntry);
