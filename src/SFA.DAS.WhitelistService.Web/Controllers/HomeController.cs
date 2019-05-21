@@ -63,15 +63,15 @@ namespace SFA.DAS.WhitelistService.Web.Controllers
 
             var WhitelistEntry = new QueueMessageEntity
             {
+                Id = Guid.NewGuid().ToString(),
                 Type = SupportedMessageTypeEnum.SQLServer,
                 Name = indexViewModel.FullName.Trim(),
                 IPAddress = indexViewModel.IPAddress
             };
 
             await sqlServerFirewallManagementService.AddWhitelistEntry(WhitelistEntry);
-            logger.LogInformation(1, $"Submitting request for: {indexViewModel.FullName}");
+            logger.LogInformation(1, $"Submitting request: {WhitelistEntry.Id}");
 
-            // return RedirectToAction("Index", "Home");
             return View("SubmitConfirmation");
         }
 
