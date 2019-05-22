@@ -8,5 +8,9 @@ namespace SFA.DAS.WhitelistService.Core
         public SupportedMessageTypeEnum Type { get; set; }
         public string Name { get; set; }
         public string IPAddress { get; set; }
+        public string ResourceGroupName { get; set; }
+        public string ResourceName { get; set; }
+
+
     }
 }
