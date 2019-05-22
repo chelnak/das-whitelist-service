@@ -1,17 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28917.181
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.WhitelistService.Web", "SFA.DAS.WhitelistService.Web\SFA.DAS.WhitelistService.Web.csproj", "{C2F127B1-1C93-4F12-A88C-31BEEC5D414F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFA.DAS.WhitelistService.Web", "SFA.DAS.WhitelistService.Web\SFA.DAS.WhitelistService.Web.csproj", "{C2F127B1-1C93-4F12-A88C-31BEEC5D414F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.WhitelistService.Infrastructure", "SFA.DAS.WhitelistService.Infrastructure\SFA.DAS.WhitelistService.Infrastructure.csproj", "{1F4E618B-92A3-4BA6-B555-3189CD69957F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFA.DAS.WhitelistService.Infrastructure", "SFA.DAS.WhitelistService.Infrastructure\SFA.DAS.WhitelistService.Infrastructure.csproj", "{1F4E618B-92A3-4BA6-B555-3189CD69957F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.WhitelistService.Core", "SFA.DAS.WhitelistService.Core\SFA.DAS.WhitelistService.Core.csproj", "{8D58A011-F8A6-49DF-89E9-5E5F44ED2021}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFA.DAS.WhitelistService.Core", "SFA.DAS.WhitelistService.Core\SFA.DAS.WhitelistService.Core.csproj", "{8D58A011-F8A6-49DF-89E9-5E5F44ED2021}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.WhitelistService.Web.UnitTests", "SFA.DAS.WhitelistService.Web.UnitTests\SFA.DAS.WhitelistService.Web.UnitTests.csproj", "{FDE4F32B-6A63-4DF4-B425-459F139E5033}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFA.DAS.WhitelistService.Web.UnitTests", "SFA.DAS.WhitelistService.Web.UnitTests\SFA.DAS.WhitelistService.Web.UnitTests.csproj", "{FDE4F32B-6A63-4DF4-B425-459F139E5033}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.WhiteListService.Functions", "SFA.DAS.WhiteListService.Functions\SFA.DAS.WhiteListService.Functions.csproj", "{2B3910EE-873C-48A0-9DAF-FDA2B250293A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFA.DAS.WhitelistService.Functions", "SFA.DAS.WhiteListService.Functions\SFA.DAS.WhitelistService.Functions.csproj", "{2B3910EE-873C-48A0-9DAF-FDA2B250293A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,9 +21,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{C2F127B1-1C93-4F12-A88C-31BEEC5D414F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -86,5 +83,11 @@ Global
 		{2B3910EE-873C-48A0-9DAF-FDA2B250293A}.Release|x64.Build.0 = Release|Any CPU
 		{2B3910EE-873C-48A0-9DAF-FDA2B250293A}.Release|x86.ActiveCfg = Release|Any CPU
 		{2B3910EE-873C-48A0-9DAF-FDA2B250293A}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {46B88369-3079-4AC8-8F65-B2793954C72D}
 	EndGlobalSection
 EndGlobal

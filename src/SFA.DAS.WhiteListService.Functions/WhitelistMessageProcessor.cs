@@ -11,25 +11,28 @@ using SFA.DAS.WhitelistService.Core;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Configuration;
 
-namespace SFA.DAS.WhiteListService.Functions
+namespace SFA.DAS.WhitelistService.Functions
 {
     public class WhitelistMessageProcessor
     {
+        private readonly IConfiguration _configuration;
+
+        public WhitelistMessageProcessor(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
 
         [FunctionName("WhitelistMessageProcessor")]
-        public static void Run([QueueTrigger("process", Connection = "StorageConnectionString")]string item, ILogger log, ExecutionContext context)
+        public void Run([QueueTrigger("process", Connection = "StorageConnectionString")]string item, ILogger log, ExecutionContext context)
         {
-
-            var config = new ConfigurationBuilder()
-                .SetBasePath(context.FunctionAppDirectory)
-                .AddJsonFile("local.settings.json", optional: true, reloadOnChange: true)
-                .AddEnvironmentVariables()
-                .Build();
+            var clientId = _configuration.GetValue<string>("ClientId") ?? throw new Exception($"Could not find ClientId config");
+            var clientSecret = _configuration.GetValue<string>("ClientSecret") ?? throw new Exception($"Could not find ClientSecret config");
+            var tenantId = _configuration.GetValue<string>("TenantId") ?? throw new Exception($"Could not find TenantId config");
 
             var credentials = SdkContext.AzureCredentialsFactory
-                .FromServicePrincipal(config["clientId"],
-                config["clientSecret"],
-                config["tenantId"],
+                .FromServicePrincipal(clientId,
+                clientSecret,
+                tenantId,
                 AzureEnvironment.AzureGlobalCloud);
 
             var azure = Microsoft.Azure.Management.Fluent.Azure
@@ -49,18 +52,5 @@ namespace SFA.DAS.WhiteListService.Functions
 
             log.LogInformation($"Finished processing request {message.Id}");
         }
-
-
-
-        public string InitializeAzure()
-        {
-            var credentials = SdkContext.AzureCredentialsFactory
-                .FromServicePrincipal(clientId,
-                clientSecret,
-                tenantId,
-                AzureEnvironment.AzureGlobalCloud);
-        }
-
-        public string GetConfiguration()
     }
 }
