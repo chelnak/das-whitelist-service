@@ -5,7 +5,7 @@ using Microsoft.Azure.Management.Fluent;
 using Microsoft.Azure.Management.ResourceManager.Fluent;
 using SFA.DAS.WhitelistService.Core;
 
-namespace SFA.DAS.WhitelistService.Core
+namespace SFA.DAS.WhitelistService.Infrastructure
 {
     public class AzureCloudManagementInitializationRepository : ICloudManagementInitializationRepository
     {

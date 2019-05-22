@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using SFA.DAS.WhitelistService.Infrastructure;
 using SFA.DAS.WhitelistService.Core;
 
 namespace SFA.DAS.WhitelistService.Web
