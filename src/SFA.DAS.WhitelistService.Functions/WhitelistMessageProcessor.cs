@@ -16,41 +16,43 @@ namespace SFA.DAS.WhitelistService.Functions
     public class WhitelistMessageProcessor
     {
         private readonly IConfiguration _configuration;
+        private readonly ICloudManagementInitializationRepository _azureCloudManagementInititalizationRepository;
 
-        public WhitelistMessageProcessor(IConfiguration configuration)
+        public WhitelistMessageProcessor(IConfiguration configuration, ICloudManagementInitializationRepository azureCloudManagementInititalizationRepository)
         {
             _configuration = configuration;
+            _azureCloudManagementInititalizationRepository = azureCloudManagementInititalizationRepository;
         }
 
         [FunctionName("WhitelistMessageProcessor")]
         public void Run([QueueTrigger("process", Connection = "StorageConnectionString")]string item, ILogger log, ExecutionContext context)
         {
-            var clientId = _configuration.GetValue<string>("ClientId") ?? throw new Exception($"Could not find ClientId config");
-            var clientSecret = _configuration.GetValue<string>("ClientSecret") ?? throw new Exception($"Could not find ClientSecret config");
-            var tenantId = _configuration.GetValue<string>("TenantId") ?? throw new Exception($"Could not find TenantId config");
+            var clientId = GetConfiguration("ClientId");
+            var clientSecret =  GetConfiguration("ClientSecret");
+            var tenantId =  GetConfiguration("TenantId");
 
-            var credentials = SdkContext.AzureCredentialsFactory
-                .FromServicePrincipal(clientId,
-                clientSecret,
-                tenantId,
-                AzureEnvironment.AzureGlobalCloud);
-
-            var azure = Microsoft.Azure.Management.Fluent.Azure
-                .Configure()
-                .Authenticate(credentials)
-                .WithDefaultSubscription();
+            var azure = _azureCloudManagementInititalizationRepository.Initialize(clientId, clientSecret, tenantId);
 
             var message = JsonConvert.DeserializeObject<QueueMessageEntity>(item);
             log.LogInformation($"Started processing request {message.Id}");
 
-            var sqlServer = azure.SqlServers.GetById(message.ResourceId);
-
-            // needs logic?
+            var sqlServer = azure.SqlServers.GetByResourceGroup(message.ResourceGroupName, message.ResourceName);
             sqlServer.FirewallRules.Define(message.Name)
                         .WithIPAddress(message.IPAddress)
                         .Create();
 
             log.LogInformation($"Finished processing request {message.Id}");
+
+        }
+
+        private string GetConfiguration(string key)
+        {
+            if (String.IsNullOrEmpty(key))
+            {
+                throw new Exception($"A configuration key was not specified");
+            }
+            
+            return _configuration.GetValue<string>(key) ?? throw new Exception($"Could not find {key} config");
         }
     }
 }
