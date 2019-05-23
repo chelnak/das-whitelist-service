@@ -7,4 +7,3 @@
 * App Service Plan
 * Function App
 * Storage Account
-* ServiceBus / Storage Account Queue
