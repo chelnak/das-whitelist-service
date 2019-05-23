@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.Azure.Management.Fluent;
 
-namespace SFA.DAS.WhitelistService.Core
+namespace SFA.DAS.WhitelistService.Core.IRepositories
 {
     public interface ICloudManagementInitializationRepository
     {

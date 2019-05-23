@@ -1,10 +1,11 @@
 using System;
 using System.Threading.Tasks;
+using SFA.DAS.WhitelistService.Core.Entities;
 
-namespace SFA.DAS.WhitelistService.Core
+namespace SFA.DAS.WhitelistService.Core.IServices
 {
     public interface ISubmissionValidationService
     {
-        SubmissionValidationResultEntity Validate(string fullName, string ipAddress);
+        SubmissionValidationResultEntity Validate(string resourceName, string resourceGroupName, string fullName, string ipAddress);
     }
 }

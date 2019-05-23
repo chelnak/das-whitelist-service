@@ -10,8 +10,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using SFA.DAS.WhitelistService.Infrastructure;
-using SFA.DAS.WhitelistService.Core;
+using SFA.DAS.WhitelistService.Web.Models;
+using SFA.DAS.WhitelistService.Core.Services;
+using SFA.DAS.WhitelistService.Core.IServices;
+using SFA.DAS.WhitelistService.Core.IRepositories;
+using SFA.DAS.WhitelistService.Core.Entities;
+using SFA.DAS.WhitelistService.Infrastructure.Repositories;
 
 namespace SFA.DAS.WhitelistService.Web
 {
@@ -30,8 +34,9 @@ namespace SFA.DAS.WhitelistService.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<ConfigurationEntity>(Configuration);
-            services.AddSingleton<ISQLServerFirewallManagementService, SQLServerFirewallManagementService>();
+            services.AddSingleton<IFirewallMessageManagementService, FirewallMessageManagementService>();
             services.AddSingleton<ISubmissionValidationService, SubmissionValidationService>();
+            services.AddSingleton<ISQLServerWhitelistService, AzureSQLServerWhitelistService>();
             services.AddSingleton<IQueueRepository, AzureStorageQueueRepository>();
 
             services.Configure<CookiePolicyOptions>(options =>

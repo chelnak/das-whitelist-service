@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using Microsoft.Azure.Management.Fluent;
 using Microsoft.Azure.Management.ResourceManager.Fluent;
-using SFA.DAS.WhitelistService.Core;
+using SFA.DAS.WhitelistService.Core.IRepositories;
 
-namespace SFA.DAS.WhitelistService.Infrastructure
+namespace SFA.DAS.WhitelistService.Infrastructure.Repositories
 {
     public class AzureCloudManagementInitializationRepository : ICloudManagementInitializationRepository
     {

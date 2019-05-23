@@ -2,8 +2,11 @@ using System;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SFA.DAS.WhitelistService.Core;
-using SFA.DAS.WhitelistService.Infrastructure;
+using SFA.DAS.WhitelistService.Core.Entities;
+using SFA.DAS.WhitelistService.Core.IRepositories;
+using SFA.DAS.WhitelistService.Core.IServices;
+using SFA.DAS.WhitelistService.Core.Services;
+using SFA.DAS.WhitelistService.Infrastructure.Repositories;
 
 [assembly: FunctionsStartup(typeof(SFA.DAS.WhitelistService.Functions.Startup))]
 namespace SFA.DAS.WhitelistService.Functions
@@ -14,6 +17,7 @@ namespace SFA.DAS.WhitelistService.Functions
         {
             builder.Services.AddOptions<ConfigurationEntity>()
                 .Configure<IConfiguration>((settings, configuration) => { configuration.Bind(settings); });
+            builder.Services.AddSingleton<ISQLServerWhitelistService, AzureSQLServerWhitelistService>();
             builder.Services.AddSingleton<ICloudManagementInitializationRepository, AzureCloudManagementInitializationRepository>();
         }
     }

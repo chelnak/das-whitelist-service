@@ -1,6 +1,6 @@
 using System;
 
-namespace SFA.DAS.WhitelistService.Core
+namespace SFA.DAS.WhitelistService.Core.Entities
 {
     public class SubmissionValidationResultEntity
     {

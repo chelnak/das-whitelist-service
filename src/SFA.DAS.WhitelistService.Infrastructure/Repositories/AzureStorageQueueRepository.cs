@@ -4,9 +4,10 @@ using Microsoft.Extensions.Options;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Queue;
 using Newtonsoft.Json;
-using SFA.DAS.WhitelistService.Core;
+using SFA.DAS.WhitelistService.Core.IRepositories;
+using SFA.DAS.WhitelistService.Core.Entities;
 
-namespace SFA.DAS.WhitelistService.Infrastructure
+namespace SFA.DAS.WhitelistService.Infrastructure.Repositories
 {
     public class AzureStorageQueueRepository : IQueueRepository
     {

@@ -14,20 +14,23 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using SFA.DAS.WhitelistService.Web.Models;
-using SFA.DAS.WhitelistService.Core;
+using SFA.DAS.WhitelistService.Core.Services;
+using SFA.DAS.WhitelistService.Core.IServices;
+using SFA.DAS.WhitelistService.Core.IRepositories;
+using SFA.DAS.WhitelistService.Core.Entities;
 
 namespace SFA.DAS.WhitelistService.Web.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger logger;
-        private readonly ISQLServerFirewallManagementService sqlServerFirewallManagementService;
+        private readonly IFirewallMessageManagementService firewallMessageManagementService;
         private readonly ISubmissionValidationService submissionValidationService;
 
-        public HomeController(ILogger<HomeController> _logger, ISQLServerFirewallManagementService _sqlServerFirewallManagementService, ISubmissionValidationService _submissionValidationService)
+        public HomeController(ILogger<HomeController> _logger, IFirewallMessageManagementService _firewallMessageManagementService, ISubmissionValidationService _submissionValidationService)
         {
             logger = _logger;
-            sqlServerFirewallManagementService = _sqlServerFirewallManagementService;
+            firewallMessageManagementService = _firewallMessageManagementService;
             submissionValidationService = _submissionValidationService;
         }
 
@@ -41,7 +44,7 @@ namespace SFA.DAS.WhitelistService.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Submit(IndexViewModel indexViewModel)
         {
-            var validationResult = submissionValidationService.Validate(indexViewModel.FullName, indexViewModel.IPAddress);
+            var validationResult = submissionValidationService.Validate(indexViewModel.ResourceGroupName, indexViewModel.ResourceName, indexViewModel.FullName, indexViewModel.IPAddress);
             if (!validationResult.IsValid){
                 logger.LogError(1, validationResult.Message);
                 return new BadRequestObjectResult(validationResult.Message);
@@ -55,11 +58,11 @@ namespace SFA.DAS.WhitelistService.Web.Controllers
                 Type = SupportedMessageTypeEnum.SQLServer,
                 Name = indexViewModel.FullName.Trim(),
                 IPAddress = indexViewModel.IPAddress,
-                ResourceGroupName = "cg-dev-rg",
-                ResourceName = "cg-dev-sql"
+                ResourceGroupName = indexViewModel.ResourceGroupName,
+                ResourceName = indexViewModel.ResourceName
             };
 
-            await sqlServerFirewallManagementService.AddWhitelistEntry(WhitelistEntry);
+            await firewallMessageManagementService.AddMessage(WhitelistEntry);
             logger.LogInformation(1, $"Submitting request: {WhitelistEntry.Id}");
 
             return View("SubmitConfirmation");
