@@ -3,6 +3,8 @@ using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SFA.DAS.WhitelistService.Functions;
+using SFA.DAS.WhitelistService.Core;
+using SFA.DAS.WhitelistService.Infrastructure;
 using System;
 
 [assembly: WebJobsStartup(typeof(Startup))]
@@ -24,6 +26,7 @@ namespace SFA.DAS.WhitelistService.Functions
         public void Configure(IWebJobsBuilder builder)
         {
             builder.Services.Configure<dynamic>(_configuration);
+            builder.Services.AddSingleton<ICloudManagementInitializationRepository, AzureCloudManagementInitializationRepository>();
             // builder.Services.AddScoped<ISQLFirewallService, AzureSQLFirewallService>();
         }
     }

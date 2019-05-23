@@ -5,14 +5,14 @@ using Microsoft.Azure.Management.Fluent;
 using Microsoft.Azure.Management.ResourceManager.Fluent;
 using SFA.DAS.WhitelistService.Core;
 
-namespace SFA.DAS.WhitelistService.Core
+namespace SFA.DAS.WhitelistService.Infrastructure
 {
     public class AzureCloudManagementInitializationRepository : ICloudManagementInitializationRepository
     {
-        private readonly ConfigurationEntity _configuration;
-        public AzureCloudManagementInitializationRepository(IOptions<ConfigurationEntity> configuration)
+        //private readonly ConfigurationEntity _configuration;
+        public AzureCloudManagementInitializationRepository() //IOptions<ConfigurationEntity> configuration
         {
-            _configuration = configuration.Value;
+            //_configuration = configuration.Value;
         }
 
         public IAzure Initialize(string clientId, string clientSecret, string tenantId)

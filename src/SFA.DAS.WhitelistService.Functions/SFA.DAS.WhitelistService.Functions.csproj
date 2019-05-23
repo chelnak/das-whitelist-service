@@ -4,6 +4,7 @@
     <AzureFunctionsVersion>v2</AzureFunctionsVersion>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.0.0" />
     <PackageReference Include="Microsoft.Azure.Management.Fluent" Version="1.22.0" />
     <PackageReference Include="Microsoft.Azure.Management.ResourceManager.Fluent" Version="1.22.0" />
     <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.Storage" Version="3.0.4" />
@@ -21,5 +22,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SFA.DAS.WhitelistService.Core\SFA.DAS.WhitelistService.Core.csproj" />
+    <ProjectReference Include="..\SFA.DAS.WhitelistService.Infrastructure\SFA.DAS.WhitelistService.Infrastructure.csproj" />
   </ItemGroup>
 </Project>

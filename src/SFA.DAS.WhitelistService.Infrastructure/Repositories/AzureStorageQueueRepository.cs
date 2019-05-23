@@ -6,7 +6,7 @@ using Microsoft.WindowsAzure.Storage.Queue;
 using Newtonsoft.Json;
 using SFA.DAS.WhitelistService.Core;
 
-namespace SFA.DAS.WhitelistService.Core
+namespace SFA.DAS.WhitelistService.Infrastructure
 {
     public class AzureStorageQueueRepository : IQueueRepository
     {
