@@ -44,13 +44,14 @@ namespace SFA.DAS.WhitelistService.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Submit(IndexViewModel indexViewModel)
         {
+            logger.LogInformation("Validating index view model");
             var validationResult = submissionValidationService.Validate(indexViewModel.ResourceGroupName, indexViewModel.ResourceName, indexViewModel.FullName, indexViewModel.IPAddress);
             if (!validationResult.IsValid){
-                logger.LogError(1, validationResult.Message);
+                logger.LogError(validationResult.Message);
                 return new BadRequestObjectResult(validationResult.Message);
             }
 
-            logger.LogInformation(1, validationResult.Message);
+            logger.LogInformation(validationResult.Message);
 
             var WhitelistEntry = new QueueMessageEntity
             {
@@ -63,8 +64,14 @@ namespace SFA.DAS.WhitelistService.Web.Controllers
             };
 
             await firewallMessageManagementService.AddMessage(WhitelistEntry);
-            logger.LogInformation(1, $"Submitting request: {WhitelistEntry.Id}");
+            logger.LogInformation($"Submitting request: {WhitelistEntry.Id}");
 
+            return RedirectToAction("SubmitConfirmation");
+        }
+
+        [Route("SubmitConfirmation")]
+        public ActionResult SubmitConfirmation()
+        {
             return View("SubmitConfirmation");
         }
 

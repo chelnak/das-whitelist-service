@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
+using NLog.Web;
+
 
 namespace SFA.DAS.WhitelistService.Web
 {
@@ -20,6 +21,7 @@ namespace SFA.DAS.WhitelistService.Web
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseApplicationInsights()
-                .UseStartup<Startup>();
+                .UseStartup<Startup>()
+                .UseNLog();
     }
 }
