@@ -1,16 +1,14 @@
 using System;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Hosting;
+using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SFA.DAS.WhitelistService.Functions;
-using SFA.DAS.WhitelistService.Infrastructure;
 using SFA.DAS.WhitelistService.Core;
+using SFA.DAS.WhitelistService.Infrastructure;
 
-[assembly: WebJobsStartup(typeof(Startup))]
+[assembly: FunctionsStartup(typeof(SFA.DAS.WhitelistService.Functions.Startup))]
 namespace SFA.DAS.WhitelistService.Functions
 {
-    public class Startup : IWebJobsStartup
+    public class Startup : FunctionsStartup
     {
         private readonly IConfiguration _configuration;
 
@@ -23,11 +21,11 @@ namespace SFA.DAS.WhitelistService.Functions
                 .Build();
         }
 
-        public void Configure(IWebJobsBuilder builder)
+        public override void Configure(IFunctionsHostBuilder builder)
         {
-            builder.Services.Configure<dynamic>(_configuration);
+            builder.Services.AddOptions<ConfigurationEntity>()
+                .Configure<IConfiguration>((settings, configuration) => { configuration.Bind(settings); });
             builder.Services.AddSingleton<ICloudManagementInitializationRepository, AzureCloudManagementInitializationRepository>();
-            // builder.Services.AddScoped<ISQLFirewallService, AzureSQLFirewallService>();
         }
     }
 }

@@ -1,11 +1,11 @@
 {
   "IsEncrypted": false,
   "Values": {
-    "AzureWebJobsStorage": "DefaultEndpointsProtocol=https;AccountName=cgdevstr;AccountKey=gcdoZqV7RBr/qIne88+5HJSUK6vzsOXGJ6ppnypJTwtb6OxEXcE5pocPk8FkzNsZ57b80O/UspQYhu2ce62aag==;EndpointSuffix=core.windows.net",
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true;",
     "FUNCTIONS_WORKER_RUNTIME": "dotnet",
-    "StorageConnectionString": "DefaultEndpointsProtocol=https;AccountName=cgdevstr;AccountKey=gcdoZqV7RBr/qIne88+5HJSUK6vzsOXGJ6ppnypJTwtb6OxEXcE5pocPk8FkzNsZ57b80O/UspQYhu2ce62aag==;EndpointSuffix=core.windows.net",
-    "ClientId": "2efe1148-d8a3-4d12-836c-4099d414ab8f",
-    "ClientSecret": "5KR33-8elH[zzpzvoMaPRPeK?UUEG_wr",
-    "TenantId": "7a72e127-4c27-4128-88a2-f854ee260ef7"
+    "StorageConnectionString": "UseDevelopmentStorage=true;",
+    "ClientId": "",
+    "ClientSecret": "",
+    "TenantId": ""
   }
 }

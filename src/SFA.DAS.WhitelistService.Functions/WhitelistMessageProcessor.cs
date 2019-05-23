@@ -1,36 +1,26 @@
-using System;
 using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Host;
-using Microsoft.Azure.Management.Fluent;
-using Microsoft.Azure.Management.ResourceManager.Fluent;
-using Microsoft.Azure.Management.ResourceManager.Fluent.Core;
 using Microsoft.Extensions.Logging;
-using SFA.DAS.WhitelistService.Infrastructure;
 using SFA.DAS.WhitelistService.Core;
 using Newtonsoft.Json;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace SFA.DAS.WhitelistService.Functions
 {
     public class WhitelistMessageProcessor
     {
-        private readonly IConfiguration _configuration;
+        private readonly ConfigurationEntity _configuration;
         private readonly ICloudManagementInitializationRepository _azureCloudManagementInititalizationRepository;
 
-        public WhitelistMessageProcessor(IConfiguration configuration, ICloudManagementInitializationRepository azureCloudManagementInititalizationRepository)
+        public WhitelistMessageProcessor(IOptions<ConfigurationEntity> configuration, ICloudManagementInitializationRepository azureCloudManagementInititalizationRepository)
         {
-            _configuration = configuration;
+            _configuration = configuration.Value;
             _azureCloudManagementInititalizationRepository = azureCloudManagementInititalizationRepository;
         }
 
         [FunctionName("WhitelistMessageProcessor")]
-        public void Run([QueueTrigger("process", Connection = "StorageConnectionString")]string item, ILogger log, ExecutionContext context)
+        public void Run([QueueTrigger("process", Connection = "StorageConnectionString")]string item, ILogger log)
         {
-            var clientId = GetConfiguration("ClientId");
-            var clientSecret =  GetConfiguration("ClientSecret");
-            var tenantId =  GetConfiguration("TenantId");
-
-            var azure = _azureCloudManagementInititalizationRepository.Initialize(clientId, clientSecret, tenantId);
+            var azure = _azureCloudManagementInititalizationRepository.Initialize(_configuration.ClientId, _configuration.ClientSecret, _configuration.TenantId);
 
             var message = JsonConvert.DeserializeObject<QueueMessageEntity>(item);
             log.LogInformation($"Started processing request {message.Id}");
@@ -42,16 +32,6 @@ namespace SFA.DAS.WhitelistService.Functions
 
             log.LogInformation($"Finished processing request {message.Id}");
 
-        }
-
-        private string GetConfiguration(string key)
-        {
-            if (String.IsNullOrEmpty(key))
-            {
-                throw new Exception($"A configuration key was not specified");
-            }
-            
-            return _configuration.GetValue<string>(key) ?? throw new Exception($"Could not find {key} config");
         }
     }
 }
