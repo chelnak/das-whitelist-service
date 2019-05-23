@@ -1,11 +1,11 @@
+using System;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SFA.DAS.WhitelistService.Functions;
-using SFA.DAS.WhitelistService.Core;
 using SFA.DAS.WhitelistService.Infrastructure;
-using System;
+using SFA.DAS.WhitelistService.Core;
 
 [assembly: WebJobsStartup(typeof(Startup))]
 namespace SFA.DAS.WhitelistService.Functions

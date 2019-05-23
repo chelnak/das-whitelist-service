@@ -54,7 +54,9 @@ namespace SFA.DAS.WhitelistService.Web.Controllers
                 Id = Guid.NewGuid().ToString(),
                 Type = SupportedMessageTypeEnum.SQLServer,
                 Name = indexViewModel.FullName.Trim(),
-                IPAddress = indexViewModel.IPAddress
+                IPAddress = indexViewModel.IPAddress,
+                ResourceGroupName = "cg-dev-rg",
+                ResourceName = "cg-dev-sql"
             };
 
             await sqlServerFirewallManagementService.AddWhitelistEntry(WhitelistEntry);

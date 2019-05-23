@@ -4,9 +4,8 @@ using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Azure.Management.Fluent;
 using Microsoft.Azure.Management.ResourceManager.Fluent;
 using Microsoft.Azure.Management.ResourceManager.Fluent.Core;
-// using Microsoft.Azure.Management.Sql.Fluent.Models;
-
 using Microsoft.Extensions.Logging;
+using SFA.DAS.WhitelistService.Infrastructure;
 using SFA.DAS.WhitelistService.Core;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Configuration;
