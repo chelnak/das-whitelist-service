@@ -10,17 +10,6 @@ namespace SFA.DAS.WhitelistService.Functions
 {
     public class Startup : FunctionsStartup
     {
-        private readonly IConfiguration _configuration;
-
-        public Startup()
-        {
-            _configuration = new ConfigurationBuilder()
-                .SetBasePath(Environment.CurrentDirectory)
-                .AddJsonFile("local.settings.json", true, true)
-                .AddEnvironmentVariables()
-                .Build();
-        }
-
         public override void Configure(IFunctionsHostBuilder builder)
         {
             builder.Services.AddOptions<ConfigurationEntity>()

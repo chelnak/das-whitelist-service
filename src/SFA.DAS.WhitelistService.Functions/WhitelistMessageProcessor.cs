@@ -31,7 +31,6 @@ namespace SFA.DAS.WhitelistService.Functions
                         .Create();
 
             log.LogInformation($"Finished processing request {message.Id}");
-
         }
     }
 }
