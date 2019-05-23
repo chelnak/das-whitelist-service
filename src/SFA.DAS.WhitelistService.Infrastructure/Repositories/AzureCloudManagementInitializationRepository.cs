@@ -9,12 +9,6 @@ namespace SFA.DAS.WhitelistService.Infrastructure
 {
     public class AzureCloudManagementInitializationRepository : ICloudManagementInitializationRepository
     {
-        //private readonly ConfigurationEntity _configuration;
-        public AzureCloudManagementInitializationRepository() //IOptions<ConfigurationEntity> configuration
-        {
-            //_configuration = configuration.Value;
-        }
-
         public IAzure Initialize(string clientId, string clientSecret, string tenantId)
         {
             var credentials = SdkContext.AzureCredentialsFactory
@@ -23,7 +17,7 @@ namespace SFA.DAS.WhitelistService.Infrastructure
                         tenantId,
                         AzureEnvironment.AzureGlobalCloud);
 
-            var azure = Microsoft.Azure.Management.Fluent.Azure
+            var azure = Azure
                 .Configure()
                 .Authenticate(credentials)
                 .WithDefaultSubscription();

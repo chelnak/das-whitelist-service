@@ -6,10 +6,6 @@ namespace SFA.DAS.WhitelistService.Core
 {
     public class SubmissionValidationService : ISubmissionValidationService
     {
-        public SubmissionValidationService()
-        {
-        }
-
         public SubmissionValidationResultEntity Validate(string fullName, string ipAddress)
         {
             var result = true;
