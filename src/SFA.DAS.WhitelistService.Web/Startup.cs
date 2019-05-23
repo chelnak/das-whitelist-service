@@ -81,6 +81,7 @@ namespace SFA.DAS.WhitelistService.Web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UsePathBase("/Whitelist");
 
             app.UseMvc(routes =>
             {

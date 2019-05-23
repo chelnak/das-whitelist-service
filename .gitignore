@@ -262,3 +262,7 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+
+**/appsettings.json
+**/**/local.settings.json
+src/SFA.DAS.WhitelistService.Functions/local.settings.json
