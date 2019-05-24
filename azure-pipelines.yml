@@ -45,7 +45,7 @@ steps:
   inputs:
     command: publish
     publishWebProjects: false
-    projects: 'src\SFA.DAS.WhitelistService.Functions.\SFA.DAS.WhitelistService.Functions.csproj'
+    projects: 'src\SFA.DAS.WhitelistService.Functions\SFA.DAS.WhitelistService.Functions.csproj'
     arguments: '--configuration $(buildConfiguration) --output $(build.artifactstagingdirectory)/publish --no-restore --no-build'
 
 - task: DotNetCoreCLI@2
