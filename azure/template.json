@@ -50,7 +50,7 @@
         },
         "storageQueueName": {
             "type": "string",
-            "default": "process"
+            "defaultValue": "process"
         },
         "cdnUrl": {
             "type": "string"
