@@ -52,9 +52,6 @@
         "cdnUrl": {
             "type": "string"
         },
-        "functionsWorkerRuntime": {
-            "type": "string"
-        },
         "clientId": {
             "type": "string"
         },
@@ -326,8 +323,8 @@
                                 "value": "[parameters('storageQueueName')]"
                             },
                             {
-                                "name": "FUNCTIONS_WORKER_RUNTIME",
-                                "value": "[parameters('functionsWorkerRuntime')]"
+                                "name": "FUNCTIONS_EXTENSION_VERSION",
+                                "value": "~2"
                             },
                             {
                                 "name": "ClientId",
