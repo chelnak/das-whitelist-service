@@ -181,9 +181,6 @@
                     "appServicePlanResourceGroup": {
                         "value": "[resourceGroup().name]"
                     },
-                    "ipSecurityRestrictions": {
-                        "value": "[array(reference(concat(parameters('appGatewayIpAddressResourceGroup'), '/Microsoft.Network/publicIPAddresses/', parameters('appGatewayIpAddressName')), '2018-11-01').ipAddress)]"
-                    },
                     "appServiceAppSettings": {
                         "value": [
                             {
