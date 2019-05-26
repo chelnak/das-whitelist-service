@@ -30,16 +30,20 @@
             "type": "string"
         },
         "customHostname": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": ""
         },
         "certificateName": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": ""
         },
         "keyVaultName": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": ""
         },
         "keyVaultResourceGroup": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": ""
         },
         "storageQueueName": {
             "type": "string",
@@ -137,6 +141,7 @@
             "apiVersion": "2017-05-10",
             "name": "app-service-certificate",
             "type": "Microsoft.Resources/deployments",
+            "condition": "[greater(length(parameters('certificateName')), 0)]",
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
