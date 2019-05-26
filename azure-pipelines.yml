@@ -41,7 +41,7 @@ steps:
   enabled: false
 
 - task: DotNetCoreCLI@2
-  displayName: 'Publish Function App '
+  displayName: 'Publish Function App'
   inputs:
     command: publish
     publishWebProjects: false
@@ -60,7 +60,7 @@ steps:
   displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
   inputs:
     Contents: |
-     azure\**
+     azure/**
     TargetFolder: '$(build.artifactstagingdirectory)/publish'
     OverWrite: true
 
