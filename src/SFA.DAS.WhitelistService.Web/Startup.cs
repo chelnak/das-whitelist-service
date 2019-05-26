@@ -56,18 +56,23 @@ namespace SFA.DAS.WhitelistService.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILogger<Startup> logger)
         {
             if (env.IsDevelopment())
             {
+                logger.LogInformation($"App is running in development mode: {env.EnvironmentName}");
                 app.UseDeveloperExceptionPage();
             }
             else
             {
+                logger.LogInformation($"App is running in production mode: {env.EnvironmentName}");
                 app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            // Configure custom health check endpoint
+            app.UseHealthChecks("/health");
 
             app.Use(async (context, next) =>
             {
@@ -76,8 +81,7 @@ namespace SFA.DAS.WhitelistService.Web
                 await next();
             });
 
-            // Enable app insights logging
-            loggerFactory.AddApplicationInsights(app.ApplicationServices, LogLevel.Warning);
+            // Configuration.GetValue<string>("ApplicationPathBase");
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
