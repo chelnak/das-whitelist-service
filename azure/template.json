@@ -184,7 +184,7 @@
                     "ipSecurityRestrictions": {
                         "value": [
                             {
-                                "ipAddress": "[concat(reference(resourceId(parameters('appGatewayIpAddressResourceGroup'),'/Microsoft.Network/publicIPAddresses/', parameters('appGatewayIpAddressName')), '2018-08-01').IpAddress, '/32')]",
+                                "ipAddress": "[concat(reference(resourceId(parameters('appGatewayIpAddressResourceGroup'),'Microsoft.Network/publicIPAddresses/', parameters('appGatewayIpAddressName')), '2018-08-01').IpAddress, '/32')]",
                                 "action": "Allow",
                                 "priority": 100,
                                 "name": "Gateway"
