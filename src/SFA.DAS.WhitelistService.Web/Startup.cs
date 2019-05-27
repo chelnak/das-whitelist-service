@@ -33,6 +33,8 @@ namespace SFA.DAS.WhitelistService.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHealthChecks();
+
             services.Configure<ConfigurationEntity>(Configuration);
             services.AddSingleton<IFirewallMessageManagementService, FirewallMessageManagementService>();
             services.AddSingleton<ISubmissionValidationService, SubmissionValidationService>();
