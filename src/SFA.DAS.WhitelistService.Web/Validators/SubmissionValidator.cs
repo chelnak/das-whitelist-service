@@ -1,47 +1,46 @@
 using System;
 using System.Net;
 using System.Threading.Tasks;
-using SFA.DAS.WhitelistService.Core.IServices;
-using SFA.DAS.WhitelistService.Core.IRepositories;
+using SFA.DAS.WhitelistService.Web.Models;
 using SFA.DAS.WhitelistService.Core.Entities;
 
-namespace SFA.DAS.WhitelistService.Core.Services
+namespace SFA.DAS.WhitelistService.Web.Validators
 {
-    public class SubmissionValidationService : ISubmissionValidationService
+    public class SubmissionValidator
     {
-        public SubmissionValidationResultEntity Validate(string resourceName, string resourceGroupName, string fullName, string ipAddress)
+        public static SubmissionValidationResultEntity Validate(IndexViewModel indexViewModel)
         {
             var result = true;
             var message = "Submission is valid!";
 
-            if (String.IsNullOrEmpty(resourceName))
+            if (String.IsNullOrEmpty(indexViewModel.ResourceName))
             {
                 message = "Resource Name cannot be null";
                 result = false;
             }
 
-            if (String.IsNullOrEmpty(resourceGroupName))
+            if (String.IsNullOrEmpty(indexViewModel.ResourceGroupName))
             {
                 message = "Resource Group Name cannot be null";
                 result = false;
             }
 
-            if (String.IsNullOrEmpty(fullName))
+            if (String.IsNullOrEmpty(indexViewModel.FullName))
             {
                 message = "Full Name cannot be null";
                 result = false;
             }
 
-            if (String.IsNullOrEmpty(ipAddress))
+            if (String.IsNullOrEmpty(indexViewModel.IPAddress))
             {
                 message = "IP Address cannot be null";
                 result = false;
             }
 
             IPAddress addr;
-            if (!IPAddress.TryParse(ipAddress, out addr))
+            if (!IPAddress.TryParse(indexViewModel.IPAddress, out addr))
             {
-                message = $"{ipAddress} is not valid";
+                message = $"{indexViewModel.IPAddress} is not valid";
                 result = false;
             }
             

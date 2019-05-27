@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using SFA.DAS.WhitelistService.Web.Validators;
 using SFA.DAS.WhitelistService.Web.Models;
 using SFA.DAS.WhitelistService.Core.Services;
 using SFA.DAS.WhitelistService.Core.IServices;
@@ -25,13 +26,11 @@ namespace SFA.DAS.WhitelistService.Web.Controllers
     {
         private readonly ILogger logger;
         private readonly IFirewallMessageManagementService firewallMessageManagementService;
-        private readonly ISubmissionValidationService submissionValidationService;
 
-        public HomeController(ILogger<HomeController> _logger, IFirewallMessageManagementService _firewallMessageManagementService, ISubmissionValidationService _submissionValidationService)
+        public HomeController(ILogger<HomeController> _logger, IFirewallMessageManagementService _firewallMessageManagementService)
         {
             logger = _logger;
             firewallMessageManagementService = _firewallMessageManagementService;
-            submissionValidationService = _submissionValidationService;
         }
 
         [HttpGet("")]
@@ -45,7 +44,7 @@ namespace SFA.DAS.WhitelistService.Web.Controllers
         public async Task<IActionResult> Submit(IndexViewModel indexViewModel)
         {
             logger.LogInformation("Validating index view model");
-            var validationResult = submissionValidationService.Validate(indexViewModel.ResourceGroupName, indexViewModel.ResourceName, indexViewModel.FullName, indexViewModel.IPAddress);
+            var validationResult = SubmissionValidator.Validate(indexViewModel);
             if (!validationResult.IsValid){
                 logger.LogError(validationResult.Message);
                 return new BadRequestObjectResult(validationResult.Message);

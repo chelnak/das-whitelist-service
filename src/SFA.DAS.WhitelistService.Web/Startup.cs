@@ -37,7 +37,6 @@ namespace SFA.DAS.WhitelistService.Web
 
             services.Configure<ConfigurationEntity>(Configuration);
             services.AddSingleton<IFirewallMessageManagementService, FirewallMessageManagementService>();
-            services.AddSingleton<ISubmissionValidationService, SubmissionValidationService>();
             services.AddSingleton<ISQLServerWhitelistService, AzureSQLServerWhitelistService>();
             services.AddSingleton<IQueueRepository, AzureStorageQueueRepository>();
 
