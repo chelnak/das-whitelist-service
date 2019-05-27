@@ -50,10 +50,10 @@ namespace SFA.DAS.WhitelistService.Web
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddAntiforgery(options =>
-            {
-                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-            });
+            // services.AddAntiforgery(options =>
+            // {
+            //     options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+            // });
 
         }
 
