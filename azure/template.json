@@ -351,13 +351,13 @@
                             }
                         ]
                     }
-                },
-                "dependsOn": [
-                    "function-app-insights",
-                    "app-service-plan",
-                    "storage-account"
-                ]
-            }
+                }
+            },
+            "dependsOn": [
+                "function-app-insights",
+                "app-service-plan",
+                "storage-account"
+            ]
         }
     ],
     "outputs": {
