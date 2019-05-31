@@ -47,6 +47,7 @@ namespace SFA.DAS.WhitelistService.Web
             });
 
             services.AddHealthChecks();
+            services.AddAuthenticationProviders(authenticationOptions.Get<AuthenticationConfigurationEntity>());
             services.Configure<ConfigurationEntity>(Configuration);
             services.AddSingleton<IFirewallMessageManagementService, FirewallMessageManagementService>();
             services.AddSingleton<ISQLServerWhitelistService, AzureSQLServerWhitelistService>();
