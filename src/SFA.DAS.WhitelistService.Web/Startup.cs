@@ -16,6 +16,9 @@ using SFA.DAS.WhitelistService.Core.IServices;
 using SFA.DAS.WhitelistService.Core.IRepositories;
 using SFA.DAS.WhitelistService.Core.Entities;
 using SFA.DAS.WhitelistService.Infrastructure.Repositories;
+using SFA.DAS.ToolService.Authentication.ServiceCollectionExtensions;
+using SFA.DAS.ToolService.Authentication.Entities;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace SFA.DAS.WhitelistService.Web
 {
@@ -33,8 +36,17 @@ namespace SFA.DAS.WhitelistService.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddHealthChecks();
+            var authenticationOptions = Configuration.GetSection("Authentication");
 
+            services.Configure<AuthenticationConfigurationEntity>(authenticationOptions);
+
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders =
+                    ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            });
+
+            services.AddHealthChecks();
             services.Configure<ConfigurationEntity>(Configuration);
             services.AddSingleton<IFirewallMessageManagementService, FirewallMessageManagementService>();
             services.AddSingleton<ISQLServerWhitelistService, AzureSQLServerWhitelistService>();
@@ -49,16 +61,29 @@ namespace SFA.DAS.WhitelistService.Web
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            // services.AddAntiforgery(options =>
-            // {
-            //     options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-            // });
+            services.AddAntiforgery(options =>
+            {
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+            });
 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILogger<Startup> logger)
         {
+            app.UseForwardedHeaders();
+
+            app.Use(async (context, next) =>
+            {
+                if (context.Request.Headers.ContainsKey("X-Original-Host"))
+                {
+                    var originalHost = context.Request.Headers["X-Original-Host"];
+                    logger.LogInformation($"Retrieving X-Original-Host value {originalHost}");
+                    context.Request.Headers.Add("Host", originalHost);
+                }
+                await next.Invoke();
+            });
+
             if (env.IsDevelopment())
             {
                 logger.LogInformation($"App is running in development mode: {env.EnvironmentName}");
@@ -74,31 +99,16 @@ namespace SFA.DAS.WhitelistService.Web
 
             app.Use(async (context, next) =>
             {
-                if (context.Request.Headers.ContainsKey("X-Original-Host"))
-                {
-                    var originalHost = context.Request.Headers["X-Original-Host"];
-                    logger.LogInformation($"Retrieving X-Original-Host value {originalHost}");
-                    context.Request.Headers.Add("Host", originalHost);
-                }
-                await next.Invoke();
-            });
-
-            // Configure custom health check endpoint
-            app.UseHealthChecks("/health");
-
-            app.Use(async (context, next) =>
-            {
                 context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
                 context.Response.Headers.Add("X-Xss-Protection", "1");
                 await next();
             });
 
-            // Configuration.GetValue<string>("ApplicationPathBase");
-
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UsePathBase("/Whitelist");
+            app.UseHealthChecks("/health");
 
             app.UseMvc(routes =>
             {

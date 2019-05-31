@@ -22,6 +22,7 @@ using SFA.DAS.WhitelistService.Core.Entities;
 
 namespace SFA.DAS.WhitelistService.Web.Controllers
 {
+    [Authorize(Policy="ValidOrgsOnly")]
     public class HomeController : Controller
     {
         private readonly ILogger logger;
