@@ -44,8 +44,10 @@ namespace SFA.DAS.WhitelistService.Web
 
             services.Configure<ForwardedHeadersOptions>(options =>
             {
-                options.ForwardedHeaders =
-                    ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+                options.ForwardedHeaders = ForwardedHeaders.XForwardedFor |
+                    ForwardedHeaders.XForwardedProto;
+                options.KnownNetworks.Clear();
+                options.KnownProxies.Clear();
             });
 
 
@@ -67,8 +69,6 @@ namespace SFA.DAS.WhitelistService.Web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
-
             services.AddAntiforgery(options =>
             {
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
@@ -85,6 +85,13 @@ namespace SFA.DAS.WhitelistService.Web
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILogger<Startup> logger)
         {
             app.UseForwardedHeaders();
+
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+                context.Response.Headers.Add("X-Xss-Protection", "1");
+                await next();
+            });
 
             app.Use(async (context, next) =>
             {
@@ -109,13 +116,6 @@ namespace SFA.DAS.WhitelistService.Web
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
-            app.Use(async (context, next) =>
-            {
-                context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
-                context.Response.Headers.Add("X-Xss-Protection", "1");
-                await next();
-            });
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
