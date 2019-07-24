@@ -19,6 +19,8 @@ using SFA.DAS.WhitelistService.Infrastructure.Repositories;
 using SFA.DAS.ToolService.Authentication.ServiceCollectionExtensions;
 using SFA.DAS.ToolService.Authentication.Entities;
 using Microsoft.AspNetCore.HttpOverrides;
+using StackExchange.Redis;
+using Microsoft.AspNetCore.DataProtection;
 
 namespace SFA.DAS.WhitelistService.Web
 {
@@ -46,12 +48,17 @@ namespace SFA.DAS.WhitelistService.Web
                     ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
             });
 
-            services.AddHealthChecks();
-            services.AddAuthenticationProviders(authenticationOptions.Get<AuthenticationConfigurationEntity>());
+
             services.Configure<ConfigurationEntity>(Configuration);
             services.AddSingleton<IFirewallMessageManagementService, FirewallMessageManagementService>();
             services.AddSingleton<ISQLServerWhitelistService, AzureSQLServerWhitelistService>();
             services.AddSingleton<IQueueRepository, AzureStorageQueueRepository>();
+
+            var redisConnectionString = Configuration["RedisConnectionString"];
+            var redis = ConnectionMultiplexer.Connect($"{redisConnectionString},DefaultDatabase=0");
+            services.AddDataProtection()
+                .SetApplicationName("das-tools-service")
+                .PersistKeysToStackExchangeRedis(redis, "DataProtection-Keys");
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -60,13 +67,18 @@ namespace SFA.DAS.WhitelistService.Web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
 
             services.AddAntiforgery(options =>
             {
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
             });
 
+            services.AddHealthChecks();
+
+            services.AddAuthenticationProviders(authenticationOptions.Get<AuthenticationConfigurationEntity>());
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -109,6 +121,7 @@ namespace SFA.DAS.WhitelistService.Web
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UsePathBase("/Whitelist");
+            app.UseAuthentication();
             app.UseHealthChecks("/health");
 
             app.UseMvc(routes =>
