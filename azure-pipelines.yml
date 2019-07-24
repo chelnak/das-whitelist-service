@@ -56,6 +56,7 @@ steps:
   inputs:
     command: publish
     publishWebProjects: false
+    modifyOutputPath: false
     projects: 'src/SFA.DAS.WhitelistService.Web/SFA.DAS.WhitelistService.Web.csproj'
     arguments: '--configuration $(buildConfiguration) --output $(system.defaultworkingdirectory)/src/SFA.DAS.WhitelistService.Web/publish/ --no-restore --no-build'
 
