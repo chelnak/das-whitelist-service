@@ -70,15 +70,18 @@ steps:
   inputs:
     command: build
     dockerfile: Web.Dockerfile
+    repository: apprenticeshipsdevops/das-whitelist-service
     tags: |
       $(build.buildnumber)
       latest
+
 - task: Docker@2
   displayName: Push Web Image
   inputs:
     command: push
     repository: apprenticeshipsdevops/das-whitelist-service
     tags: $(build.buildnumber)
+
 - task: Docker@2
   displayName: Push Web Image Latest if master
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
@@ -86,6 +89,7 @@ steps:
     command: push
     repository: apprenticeshipsdevops/das-whitelist-service
     tags: latest
+    
 - task: CopyFiles@2
   displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
   inputs:
