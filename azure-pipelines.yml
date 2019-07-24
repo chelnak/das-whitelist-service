@@ -57,6 +57,7 @@ steps:
     command: publish
     publishWebProjects: false
     modifyOutputPath: false
+    zipAfterPublish: false
     projects: 'src/SFA.DAS.WhitelistService.Web/SFA.DAS.WhitelistService.Web.csproj'
     arguments: '--configuration $(buildConfiguration) --output $(system.defaultworkingdirectory)/src/SFA.DAS.WhitelistService.Web/publish --no-restore --no-build'
 
@@ -96,9 +97,15 @@ steps:
   inputs:
     contents: |
      azure/**
-     src/SFA.DAS.WhitelistService.Web/publish/**
     targetFolder: '$(build.artifactstagingdirectory)/publish'
     overWrite: true
+
+- task: ArchiveFiles@2
+  displayName: 'Zip Web'
+  inputs:
+    rootFolderOrFile: $(system.defaultworkingdirectory)/src/SFA.DAS.WhitelistService.Web/publish
+    includeRootFolder: false
+    archiveFile: $(build.artifactstagingdirectory)/publish/SFA.DAS.WhitelistService.Web.zip
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact'
