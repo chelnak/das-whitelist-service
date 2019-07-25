@@ -120,7 +120,7 @@ namespace SFA.DAS.WhitelistService.Web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-            app.UsePathBase("/Whitelist");
+            // app.UsePathBase("/Whitelist");
             app.UseAuthentication();
             app.UseHealthChecks("/health");
 
